@@ -13,4 +13,28 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 ```
 
+```{r}
+temp_fun<- function(T){
+  
+  temp = min(T/100, T)
+  return(temp)
+}
+
+temp <- temp_fun(0)
+
+econ_fun <- function(temp, B = 0.05){
+  K = exp(-B*temp^2)
+  return(K)
+}
+
+ggplot(data.frame(x = c(0, 200)), aes(x = temp)) +
+  stat_function(fun = temp_fun)
+
+r <- function(d=0.005, n = 0.5, g=0.01){
+  r = d + n*g
+  return(r)
+}
+
+r <- r()
+```
 
