@@ -9,36 +9,49 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-```{r}
+```{r, include=FALSE}
 library(tidyverse)
 ```
 
 
-### Equations
+### Equations and Plots
 ```{r}
 # temperature
+
+#define variables
 sims = 201
 temps <- rep(NA, sims)
+temps_0 <- rep(NA, sims)
+temps_2 <- rep(NA, sims)
+temps_8 <- rep(NA, sims)
+t <- seq(from = 0, to = 200, by = 1)
 
+# temperature function
 temp_fun<- function(T, x){
   temp = min((T*x)/100, T)
 }
 
+# create temp vectors for CC scenarios
 for(i in 1:sims){
-  temps[i] <- temp_fun(5, i-1)
+  temps_0[i] <- temp_fun(0, i-1)
 }
 
-# function in for loop????
+for(i in 1:sims){
+  temps_2[i] <- temp_fun(2, i-1)
+}
 
-# temp_fun1 <- function(T, sims){
-#   temps2 <- rep(NA, sims)
-#   for(i in 1:sims){
-#   temps2[i] <- min((T*(i-1))/100, T)
-#   return(temps2)
-#   }
-# }
-# 
-# temps1 <- temp_fun1(T=5, sims)
+for(i in 1:sims){
+  temps_8[i] <- temp_fun(8, i-1)
+}
+
+# combine into dataframe
+temps_data_raw <- data.frame(t, temps_0, temps_2, temps_8)
+temps_data <- temps_data_raw %>% 
+  pivot_longer(cols = starts_with("temps"), names_to = "cc_scenario", values_to = "temp")
+
+# plot temps
+ggplot(data = temps_data, aes(x = t, y = temp, color = cc_scenario))+
+  geom_line()
 
 ```
 
@@ -50,9 +63,9 @@ econ_fun <- function(temp, B = 0.05){
   K = exp(-B*temp^2)
 }
 
-for(i in 1:sims){
-  K[i] <- econ_fun(temps[i])
-  }
+# for(i in 1:sims){
+#   K[i] <- econ_fun(temps[i])
+#   }
 ```
 
 ```{r}
@@ -63,9 +76,9 @@ con_fun <- function(K, x, g = 0.01){
   C = K*exp(g*x)
 }
 
-for(i in 0:sims){
-  C[i] <- con_fun(K[i], i-1)
-  }
+# for(i in 0:sims){
+#   C[i] <- con_fun(K[i], i-1)
+#   }
 ```
 
 ```{r}
@@ -76,9 +89,9 @@ u_fun <- function(C,n = 0.5){
   U = (C^(1-n))/(1-n)
 }
 
-for(i in 0:sims){
-  U[i] <- u_fun(C[i])
-}
+# for(i in 0:sims){
+#   U[i] <- u_fun(C[i])
+# }
 ```
 
 ```{r}
