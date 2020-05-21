@@ -24,9 +24,22 @@ temp_fun<- function(T, x){
   temp = min((T*x)/100, T)
 }
 
-for(i in 0:sims){
-  temps[i] <- temp_fun(5, i)
-  }
+for(i in 1:sims){
+  temps[i] <- temp_fun(5, i-1)
+}
+
+# function in for loop????
+
+# temp_fun1 <- function(T, sims){
+#   temps2 <- rep(NA, sims)
+#   for(i in 1:sims){
+#   temps2[i] <- min((T*(i-1))/100, T)
+#   return(temps2)
+#   }
+# }
+# 
+# temps1 <- temp_fun1(T=5, sims)
+
 ```
 
 ```{r}
@@ -37,8 +50,8 @@ econ_fun <- function(temp, B = 0.05){
   K = exp(-B*temp^2)
 }
 
-for(i in 0:sims){
-  K[i] <- econ_fun(temps[i], i)
+for(i in 1:sims){
+  K[i] <- econ_fun(temps[i])
   }
 ```
 
@@ -51,7 +64,7 @@ con_fun <- function(K, x, g = 0.01){
 }
 
 for(i in 0:sims){
-  C[i] <- con_fun(K[i], i)
+  C[i] <- con_fun(K[i], i-1)
   }
 ```
 
@@ -59,7 +72,7 @@ for(i in 0:sims){
 # Utility
 U <- rep(NA, sims)
 
-u_fun <- function(x,n = 0.5){
+u_fun <- function(C,n = 0.5){
   U = (C^(1-n))/(1-n)
 }
 
@@ -70,16 +83,97 @@ for(i in 0:sims){
 
 ```{r}
 # Discounting
-r <- function(d=0.005, n = 0.5, g=0.01){
+d = 0.005
+n = 0.5
+g = 0.01
+
+r_fun <- function(d = 0.005, n = 0.5, g = 0.01){
   r = d + n*g
-  return(r)
 }
 
-r <- r()
+discount <- function(U, r){
+  pv <- rep(NA, sims)
+  for(i in 1:sims){
+    pv[i] = U[i]/(1+r)^(i-1)
+  }
+  pv_total = sum(pv)
+  return(pv_total)
+}
 ```
 
 ### Analysis
-```{r}
 
+##### Part A
+```{r}
+# Function for loss in present value of utility
+
+loss_fun <- function(T, d=0.005, n = 0.5, g=0.01){
+# Climate Change
+  for(i in 1:sims){
+  temps[i] <- temp_fun(T, i-1)}
+
+for(i in 1:sims){
+  K[i] <- econ_fun(temps[i])}
+
+for(i in 1:sims){
+  C[i] <- con_fun(K[i], i-1)}
+
+for(i in 1:sims){
+  U[i] <- u_fun(C[i])}
+
+r <- r_fun(d = d, n = n, g = g)
+cc_utility <- discount(U, r)
+
+# No climate change
+T <- 0
+
+for(i in 1:sims){
+  temps[i] <- temp_fun(T, i-1)}
+
+for(i in 1:sims){
+  K[i] <- econ_fun(temps[i])}
+
+for(i in 1:sims){
+  C[i] <- con_fun(K[i], i-1)}
+
+for(i in 1:sims){
+  U[i] <- u_fun(C[i])}
+
+utility <- discount(U, r)
+
+L <- utility - cc_utility
+return(L)
+}
+
+L_test <- loss_fun(T = 4.4)
 ```
 
+
+##### Part B
+```{r}
+
+p_change <- function(L0, L_new){
+  pc <- (L_new-L0)/L0
+  return(pc*100)
+}
+
+T <- 4.4
+T10 <- T*1.1
+d10 <- d*1.1
+n10 <- n*1.1
+g10 <- g*1.1
+
+r_d <- r_fun(d = d10)
+r_n <- r_fun(n = n10)
+r_g <- r_fun(g = g10)
+
+L_T <- loss_fun(T = T10)
+L_d <- loss_fun(T = 4.4, d = d10)
+L_n <- loss_fun(T = 4.4, n = n10)
+L_g <- loss_fun(T = 4.4, g = g10)
+
+pc_T <- p_change(L0 = L_test, L_new = L_T)
+pc_d <- p_change(L0 = L_test, L_new = L_d)
+pc_n <- p_change(L0 = L_test, L_new = L_n)
+pc_g <- p_change(L0 = L_test, L_new = L_g)
+```
