@@ -13,28 +13,73 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 ```
 
+
+### Equations
 ```{r}
-temp_fun<- function(T){
-  
-  temp = min(T/100, T)
-  return(temp)
+# temperature
+sims = 201
+temps <- rep(NA, sims)
+
+temp_fun<- function(T, x){
+  temp = min((T*x)/100, T)
 }
 
-temp <- temp_fun(0)
+for(i in 0:sims){
+  temps[i] <- temp_fun(5, i)
+  }
+```
+
+```{r}
+# economic activity
+K <- rep(NA, sims)
 
 econ_fun <- function(temp, B = 0.05){
   K = exp(-B*temp^2)
-  return(K)
 }
 
-ggplot(data.frame(x = c(0, 200)), aes(x = temp)) +
-  stat_function(fun = temp_fun)
+for(i in 0:sims){
+  K[i] <- econ_fun(temps[i], i)
+  }
+```
 
+```{r}
+# consumption
+C <- rep(NA, sims)
+
+con_fun <- function(K, x, g = 0.01){
+  C = K*exp(g*x)
+}
+
+for(i in 0:sims){
+  C[i] <- con_fun(K[i], i)
+  }
+```
+
+```{r}
+# Utility
+U <- rep(NA, sims)
+
+u_fun <- function(x,n = 0.5){
+  U = (C^(1-n))/(1-n)
+}
+
+for(i in 0:sims){
+  U[i] <- u_fun(C[i])
+}
+```
+
+```{r}
+# Discounting
 r <- function(d=0.005, n = 0.5, g=0.01){
   r = d + n*g
   return(r)
 }
 
 r <- r()
+```
+
+### Analysis
+```{r}
+
 ```
 
