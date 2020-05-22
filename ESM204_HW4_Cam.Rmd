@@ -1,5 +1,5 @@
 ---
-title: "ESM 204 Cam Plots"
+title: "ESM 204 HW4: A Climate Change Model"
 author: "Cameryn Brock"
 date: "5/22/2020"
 output: html_document
@@ -15,71 +15,37 @@ knitr::opts_chunk$set(echo = FALSE,
 library(tidyverse)
 ```
 
-
 ```{r}
-# temperature: the temp in year t relative to the temp at t = 0
+## functions
 
+# temperature function
 temp_fun = function(t, T){
-  temp = pmin(t*T/100,T)
-  return(temp)
-}
+  temp = pmin(t*T/100,T)}
 
-# T = BAU temperature increase at year 100
-# t = year
+# economic activity retained function
+econ_fun <- function(temp, B = 0.05){
+  econ = exp(-B*temp^2)}
+
+# total consumption function
+consum_fun <- function(econ, g = 0.01, t){
+  consum = econ*exp(g*t)}  
+
+# society utility function
+utility_fun <- function(C, n = 0.5){
+  utility = ((C^(1-n))/(1-n))}
+
+# discount rate function
+disc_fun <- function(y = 0.005, n = 0.5, g = 0.01){
+  disc = y + n*g}
 ```
 
-```{r}
-# K(t) = the fraction of economic activity retained in a year if the temperature is temp
+## 1. Plots
 
-econ_fun <- function(t, temp, B){
-  econ = exp(-B*temp*(t^2))
-  return(econ)
-}
-```
+### a) Temperature over time
 
-```{r}
-# C(t) = total consumption 
-# economic activity grows over time at rate g, but is reduced by the fraction in the func above. So total consumption at time t is:
-
-consum_fun <- function(econ, g, t){
-  consum = econ*exp(g*t)
-  return(consum)
-}  
-```
-
-```{r}
-# society's utility
-
-utility_fun <- function(C, n){
-  utility = ((C^(1-n))/(1-n))
-  return(utility)
-}
-```
-
-```{r}
-# discount rate
-
-disc_fun <- function(y, n, g){
-  disc = y + n*g
-  return(disc)
-}
-```
-
-```{r}
-# set constants
-
-y = 0.005
-n = 0.5
-g = 0.01
-B = 0.05
-```
-
-# 1. Plots
-## a) Temperature over time
 ```{r}
 years <- data.frame(
-  year = seq(from = 0, to = 200, by = 1)
-)
+  year = seq(from = 0, to = 200, by = 1))
 
 temp_time <- years %>% 
   mutate(none = temp_fun(t = year, T = 0),
@@ -92,13 +58,86 @@ temp_time <- years %>%
 ggplot(temp_time, aes(x = year,
                       y = temp,
                       color = climate_change)) +
-  geom_line()
+  geom_line(show.legend = FALSE) + 
+  scale_color_manual(values = c("indianred", "goldenrod", "cadetblue")) +
+  theme_minimal() + 
+  theme(plot.margin = unit(c(1, 4, 1, 1), "lines")) +
+  coord_cartesian(clip = "off") +
+  geom_label(x = 201, y = 8, size = 3, hjust = 0, label.size = 0,
+           label = "Extreme Climate \nChange (CC)",
+           color = "indianred") +
+  geom_label(x = 201, y = 2, size = 3, hjust = 0, label.size = 0,
+           label = "Moderate CC",
+           color = "goldenrod") +
+  geom_label(x = 201, y = 0, size = 3, hjust = 0, label.size = 0,
+           label = "No CC",
+           color = "cadetblue") +
+  labs(x = "Year",
+       y = "Temperature",
+       color = "Climate Change \nScenario")
 
 ```
 
+### b) Consumption over time
 
-## b) Consumption over time
+```{r}
+econ_time <- temp_time %>% 
+  mutate(econ = econ_fun(temp = temp))
 
+consum_time <- econ_time %>% 
+  mutate(consum = consum_fun(t = year, econ = econ))
 
-## c) Undiscounted utility over time
+ggplot(consum_time, aes(x = year,
+                      y = consum,
+                      color = climate_change)) +
+  geom_line(show.legend = FALSE) + 
+  scale_color_manual(values = c("indianred", "goldenrod", "cadetblue")) +
+  theme_minimal() + 
+  theme(plot.margin = unit(c(1, 4, 1, 1), "lines")) +
+  coord_cartesian(clip = "off") +
+  geom_label(x = 201, y = 0.35, size = 3, hjust = 0, label.size = 0,
+           label = "Extreme CC",
+           color = "indianred") +
+  geom_label(x = 201, y = 6.05, size = 3, hjust = 0, label.size = 0,
+           label = "Moderate CC",
+           color = "goldenrod") +
+  geom_label(x = 201, y = 7.4, size = 3, hjust = 0, label.size = 0,
+           label = "No Climate \nChange (CC)",
+           color = "cadetblue") +
+  labs(x = "Year",
+       y = "Total Consumption",
+       color = "Climate Change \nScenario")
 
+```
+
+### c) Undiscounted utility over time
+
+```{r}
+
+utility_time <- consum_time %>% 
+  mutate(utility = utility_fun(C = consum))
+
+ggplot(utility_time, aes(x = year,
+                      y = utility,
+                      color = climate_change)) +
+  geom_line(show.legend = FALSE) + 
+  scale_color_manual(values = c("indianred", "goldenrod", "cadetblue")) +
+  theme_minimal() + 
+  theme(plot.margin = unit(c(1, 4, 1, 1), "lines")) +
+  coord_cartesian(clip = "off") +
+  geom_label(x = 201, y = 1.1, size = 3, hjust = 0, label.size = 0,
+           label = "Extreme CC",
+           color = "indianred") +
+  geom_label(x = 201, y = 4.9, size = 3, hjust = 0, label.size = 0,
+           label = "Moderate CC",
+           color = "goldenrod") +
+  geom_label(x = 201, y = 5.45, size = 3, hjust = 0, label.size = 0,
+           label = "No Climate \nChange (CC)",
+           color = "cadetblue") +
+  labs(x = "Year",
+       y = "Undiscounted Utility",
+       color = "Climate Change \nScenario")
+
+```
+
+## Analysis
