@@ -58,14 +58,35 @@ ggplot(data = temps_data, aes(x = t, y = temp, color = cc_scenario))+
 ```{r}
 # economic activity
 K <- rep(NA, sims)
+K_0<- rep(NA, sims)
+K_2<- rep(NA, sims)
+K_8<- rep(NA, sims)
+
 
 econ_fun <- function(temp, B = 0.05){
   K = exp(-B*temp^2)
 }
 
-# for(i in 1:sims){
-#   K[i] <- econ_fun(temps[i])
-#   }
+for(i in 1:sims){
+   K_0[i] <- econ_fun(temps_0[i])
+}
+
+for(i in 1:sims){
+   K_2[i] <- econ_fun(temps_2[i])
+}
+
+for(i in 1:sims){
+   K_8[i] <- econ_fun(temps_8[i])
+}
+
+# combine into dataframe
+econ_data_raw <- data.frame(t, K_0, K_2, K_8)
+econ_data <- econ_data_raw %>% 
+  pivot_longer(cols = starts_with("K"), names_to = "cc_scenario", values_to = "K")
+
+# plot K
+ggplot(data = econ_data, aes(x = t, y = K, color = cc_scenario))+
+  geom_line()
 ```
 
 ```{r}
