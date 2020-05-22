@@ -50,10 +50,13 @@ temps_data <- temps_data_raw %>%
   pivot_longer(cols = starts_with("temps"), names_to = "cc_scenario", values_to = "temp")
 
 # plot temps
-ggplot(data = temps_data, aes(x = t, y = temp, color = cc_scenario))+
+ggplot(data = temps_data, aes(x = t, 
+                              y = temp, 
+                              color = cc_scenario))+
   geom_line()
 
 ```
+
 
 ```{r}
 # economic activity
@@ -85,7 +88,9 @@ econ_data <- econ_data_raw %>%
   pivot_longer(cols = starts_with("K"), names_to = "cc_scenario", values_to = "K")
 
 # plot K
-ggplot(data = econ_data, aes(x = t, y = K, color = cc_scenario))+
+ggplot(data = econ_data, aes(x = t, 
+                             y = K, 
+                             color = cc_scenario))+
   geom_line()
 ```
 

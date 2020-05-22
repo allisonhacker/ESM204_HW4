@@ -1,0 +1,104 @@
+---
+title: "ESM 204 Cam Plots"
+author: "Cameryn Brock"
+date: "5/22/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+
+```{r}
+# temperature: the temp in year t relative to the temp at t = 0
+
+temp_fun = function(t, T){
+  temp = pmin(t*T/100,T)
+  return(temp)
+}
+
+# T = BAU temperature increase at year 100
+# t = year
+```
+
+```{r}
+# K(t) = the fraction of economic activity retained in a year if the temperature is temp
+
+econ_fun <- function(t, temp, B){
+  econ = exp(-B*temp*(t^2))
+  return(econ)
+}
+```
+
+```{r}
+# C(t) = total consumption 
+# economic activity grows over time at rate g, but is reduced by the fraction in the func above. So total consumption at time t is:
+
+consum_fun <- function(econ, g, t){
+  consum = econ*exp(g*t)
+  return(consum)
+}  
+```
+
+```{r}
+# society's utility
+
+utility_fun <- function(C, n){
+  utility = ((C^(1-n))/(1-n))
+  return(utility)
+}
+```
+
+```{r}
+# discount rate
+
+disc_fun <- function(y, n, g){
+  disc = y + n*g
+  return(disc)
+}
+```
+
+```{r}
+# set constants
+
+y = 0.005
+n = 0.5
+g = 0.01
+B = 0.05
+```
+
+# 1. Plots
+## a) Temperature over time
+```{r}
+years <- data.frame(
+  year = seq(from = 0, to = 200, by = 1)
+)
+
+temp_time <- years %>% 
+  mutate(none = temp_fun(t = year, T = 0),
+         moderate = temp_fun(t = year, T = 2),
+         extreme = temp_fun(t = year, T = 8)) %>% 
+  pivot_longer(2:4,
+               values_to = "temp",
+               names_to = "climate_change")
+
+ggplot(temp_time, aes(x = year,
+                      y = temp,
+                      color = climate_change)) +
+  geom_line()
+
+```
+
+
+## b) Consumption over time
+
+
+## c) Undiscounted utility over time
+
