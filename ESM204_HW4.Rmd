@@ -97,14 +97,34 @@ ggplot(data = econ_data, aes(x = t,
 ```{r}
 # consumption
 C <- rep(NA, sims)
+C_0<- rep(NA, sims)
+C_2<- rep(NA, sims)
+C_8<- rep(NA, sims)
 
 con_fun <- function(K, x, g = 0.01){
   C = K*exp(g*x)
 }
 
-# for(i in 0:sims){
-#   C[i] <- con_fun(K[i], i-1)
-#   }
+ for(i in 0:sims){
+   C_0[i] <- con_fun(K_0[i], i-1)
+ }
+
+for(i in 0:sims){
+   C_2[i] <- con_fun(K_2[i], i-1)
+}
+
+for(i in 0:sims){
+   C_8[i] <- con_fun(K_8[i], i-1)
+}
+
+# combine into dataframe
+con_data_raw <- data.frame(t, C_0, C_2, C_8)
+con_data <- con_data_raw %>% 
+  pivot_longer(cols = starts_with("C"), names_to = "cc_scenario", values_to = "C")
+
+# plot K
+ggplot(data = con_data, aes(x = t, y = C, color = cc_scenario))+
+  geom_line()
 ```
 
 ```{r}
