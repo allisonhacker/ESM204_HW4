@@ -65,6 +65,7 @@ K_0<- rep(NA, sims)
 K_2<- rep(NA, sims)
 K_8<- rep(NA, sims)
 
+B = 0.05
 
 econ_fun <- function(temp, B = 0.05){
   K = exp(-B*temp^2)
@@ -82,16 +83,6 @@ for(i in 1:sims){
    K_8[i] <- econ_fun(temps_8[i])
 }
 
-# combine into dataframe
-econ_data_raw <- data.frame(t, K_0, K_2, K_8)
-econ_data <- econ_data_raw %>% 
-  pivot_longer(cols = starts_with("K"), names_to = "cc_scenario", values_to = "K")
-
-# plot K
-ggplot(data = econ_data, aes(x = t, 
-                             y = K, 
-                             color = cc_scenario))+
-  geom_line()
 ```
 
 ```{r}
@@ -130,14 +121,26 @@ ggplot(data = con_data, aes(x = t, y = C, color = cc_scenario))+
 ```{r}
 # Utility
 U <- rep(NA, sims)
+U_0<- rep(NA, sims)
+U_2<- rep(NA, sims)
+U_8<- rep(NA, sims)
 
 u_fun <- function(C,n = 0.5){
   U = (C^(1-n))/(1-n)
 }
 
-# for(i in 0:sims){
-#   U[i] <- u_fun(C[i])
-# }
+for(i in 0:sims){
+   U_0[i] <- u_fun(C_0[i])
+}
+
+for(i in 0:sims){
+   U_2[i] <- u_fun(C_2[i])
+}
+
+for(i in 0:sims){
+   U_8[i] <- u_fun(C_8[i])
+}
+
 ```
 
 ```{r}
@@ -166,13 +169,13 @@ discount <- function(U, r){
 ```{r}
 # Function for loss in present value of utility
 
-loss_fun <- function(T, d=0.005, n = 0.5, g=0.01){
+loss_fun <- function(T, B = 0.05, d=0.005, n = 0.5, g=0.01){
 # Climate Change
   for(i in 1:sims){
   temps[i] <- temp_fun(T, i-1)}
 
 for(i in 1:sims){
-  K[i] <- econ_fun(temps[i])}
+  K[i] <- econ_fun(temps[i], B = B)}
 
 for(i in 1:sims){
   C[i] <- con_fun(K[i], i-1)}
@@ -200,7 +203,7 @@ for(i in 1:sims){
 
 utility <- discount(U, r)
 
-L <- utility - cc_utility
+L <- p_change(L0 = utility, L_new = cc_utility)
 return(L)
 }
 
@@ -218,21 +221,34 @@ p_change <- function(L0, L_new){
 
 T <- 4.4
 T10 <- T*1.1
-d10 <- d*1.1
+B10 <- B*1.1
 n10 <- n*1.1
 g10 <- g*1.1
 
-r_d <- r_fun(d = d10)
 r_n <- r_fun(n = n10)
 r_g <- r_fun(g = g10)
 
 L_T <- loss_fun(T = T10)
-L_d <- loss_fun(T = 4.4, d = d10)
+L_B <- loss_fun(T = 4.4, B = B10)
 L_n <- loss_fun(T = 4.4, n = n10)
 L_g <- loss_fun(T = 4.4, g = g10)
 
-pc_T <- p_change(L0 = L_test, L_new = L_T)
-pc_d <- p_change(L0 = L_test, L_new = L_d)
-pc_n <- p_change(L0 = L_test, L_new = L_n)
-pc_g <- p_change(L0 = L_test, L_new = L_g)
 ```
+
+```{r}
+# what fraction of consumption would society be willing to "pay" every year for 200 years to completely prevent climate change?
+dis <- rep(NA, sims)
+dif <- U_0-U_8
+dif_sum <- sum(dif)
+sum(U_0)
+r <- r_fun()
+dis <- discount(dif, r)
+
+u_fun_con<- function(C, x, n = 0.5){
+  U = ((C*(1-x))^(1-n))/(1-n)
+}
+
+
+
+```
+
