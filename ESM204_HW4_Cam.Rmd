@@ -15,30 +15,6 @@ knitr::opts_chunk$set(echo = FALSE,
 library(tidyverse)
 ```
 
-```{r}
-## functions
-
-# temperature function
-temp_fun = function(t, T){
-  temp = pmin(t*T/100,T)}
-
-# economic activity retained function
-econ_fun <- function(temp, B = 0.05){
-  econ = exp(-B*temp^2)}
-
-# total consumption function
-consum_fun <- function(econ, g = 0.01, t){
-  consum = econ*exp(g*t)}  
-
-# society utility function
-utility_fun <- function(C, n = 0.5){
-  utility = ((C^(1-n))/(1-n))}
-
-# discount rate function
-disc_fun <- function(y = 0.005, n = 0.5, g = 0.01){
-  disc = y + n*g}
-```
-
 ## 1. Plots
 
 ### a) Temperature over time
@@ -46,6 +22,10 @@ disc_fun <- function(y = 0.005, n = 0.5, g = 0.01){
 ```{r}
 years <- data.frame(
   year = seq(from = 0, to = 200, by = 1))
+
+# temperature function
+temp_fun = function(t, T){
+  temp = pmin(t*T/100,T)}
 
 temp_time <- years %>% 
   mutate(none = temp_fun(t = year, T = 0),
@@ -63,26 +43,36 @@ ggplot(temp_time, aes(x = year,
   theme_minimal() + 
   theme(plot.margin = unit(c(1, 4, 1, 1), "lines")) +
   coord_cartesian(clip = "off") +
-  geom_label(x = 201, y = 8, size = 3, hjust = 0, label.size = 0,
-           label = "Extreme Climate \nChange (CC)",
-           color = "indianred") +
-  geom_label(x = 201, y = 2, size = 3, hjust = 0, label.size = 0,
-           label = "Moderate CC",
-           color = "goldenrod") +
-  geom_label(x = 201, y = 0, size = 3, hjust = 0, label.size = 0,
-           label = "No CC",
-           color = "cadetblue") +
+  geom_label(x = 201, y = 8, size = 3, 
+             hjust = 0, label.size = 0,
+             label = "Extreme Climate \nChange (CC)",
+             color = "indianred") +
+  geom_label(x = 201, y = 2, size = 3, 
+             hjust = 0, label.size = 0,
+             label = "Moderate CC",
+             color = "goldenrod") +
+  geom_label(x = 201, y = 0, size = 3, 
+             hjust = 0, label.size = 0,
+             label = "No CC",
+             color = "cadetblue") +
   labs(x = "Year",
        y = "Temperature",
        color = "Climate Change \nScenario")
-
 ```
 
 ### b) Consumption over time
 
 ```{r}
+# economic activity retained function
+econ_fun <- function(temp, B = 0.05){
+  econ = exp(-B*temp^2)}
+
 econ_time <- temp_time %>% 
   mutate(econ = econ_fun(temp = temp))
+
+# total consumption function
+consum_fun <- function(econ, g = 0.01, t){
+  consum = econ*exp(g*t)}  
 
 consum_time <- econ_time %>% 
   mutate(consum = consum_fun(t = year, econ = econ))
@@ -95,24 +85,29 @@ ggplot(consum_time, aes(x = year,
   theme_minimal() + 
   theme(plot.margin = unit(c(1, 4, 1, 1), "lines")) +
   coord_cartesian(clip = "off") +
-  geom_label(x = 201, y = 0.35, size = 3, hjust = 0, label.size = 0,
-           label = "Extreme CC",
-           color = "indianred") +
-  geom_label(x = 201, y = 6.05, size = 3, hjust = 0, label.size = 0,
-           label = "Moderate CC",
-           color = "goldenrod") +
-  geom_label(x = 201, y = 7.4, size = 3, hjust = 0, label.size = 0,
-           label = "No Climate \nChange (CC)",
-           color = "cadetblue") +
+  geom_label(x = 201, y = 0.35, size = 3, 
+             hjust = 0, label.size = 0,
+             label = "Extreme CC",
+             color = "indianred") +
+  geom_label(x = 201, y = 6.05, size = 3, 
+             hjust = 0, label.size = 0,
+             label = "Moderate CC",
+             color = "goldenrod") +
+  geom_label(x = 201, y = 7.4, size = 3, 
+             hjust = 0, label.size = 0, 
+             label = "No Climate \nChange (CC)",
+             color = "cadetblue") +
   labs(x = "Year",
        y = "Total Consumption",
        color = "Climate Change \nScenario")
-
 ```
 
 ### c) Undiscounted utility over time
 
 ```{r}
+# society utility function
+utility_fun <- function(C, n = 0.5){
+  utility = ((C^(1-n))/(1-n))}
 
 utility_time <- consum_time %>% 
   mutate(utility = utility_fun(C = consum))
@@ -125,19 +120,34 @@ ggplot(utility_time, aes(x = year,
   theme_minimal() + 
   theme(plot.margin = unit(c(1, 4, 1, 1), "lines")) +
   coord_cartesian(clip = "off") +
-  geom_label(x = 201, y = 1.1, size = 3, hjust = 0, label.size = 0,
-           label = "Extreme CC",
-           color = "indianred") +
-  geom_label(x = 201, y = 4.9, size = 3, hjust = 0, label.size = 0,
-           label = "Moderate CC",
-           color = "goldenrod") +
-  geom_label(x = 201, y = 5.45, size = 3, hjust = 0, label.size = 0,
-           label = "No Climate \nChange (CC)",
-           color = "cadetblue") +
+  geom_label(x = 201, y = 1.1, size = 3, 
+             hjust = 0, label.size = 0,
+             label = "Extreme CC",
+             color = "indianred") +
+  geom_label(x = 201, y = 4.9, size = 3, 
+             hjust = 0, label.size = 0, 
+             label = "Moderate CC", 
+             color = "goldenrod") +
+  geom_label(x = 201, y = 5.45, size = 3, 
+             hjust = 0, label.size = 0,
+             label = "No Climate \nChange (CC)", 
+             color = "cadetblue") +
+  scale_y_continuous(limits = c(0, 6)) +
   labs(x = "Year",
        y = "Undiscounted Utility",
        color = "Climate Change \nScenario")
-
 ```
 
 ## Analysis
+
+### a) 
+
+```{r}
+# discount rate function
+disc_fun <- function(y = 0.005, n = 0.5, g = 0.01){
+  disc = y + n*g}
+
+
+
+```
+
