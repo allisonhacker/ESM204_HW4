@@ -75,7 +75,7 @@ econ_fun <- function(temp, B = 0.05){
 
 econ_time <- temp_time %>% 
   mutate(econ = econ_fun(temp = temp))
-
+ 
 # total consumption function
 consum_fun <- function(econ, g = 0.01, t){
   consum = econ*exp(g*t)
@@ -171,6 +171,7 @@ disc_4.4 <- years %>%
 
 # NPV under T = 4.4 
 npv_4.4 <- sum(disc_4.4$disc_utility)
+npv_4.4
 
 # T = 0 
 disc_0 <- years %>% 
@@ -182,16 +183,20 @@ disc_0 <- years %>%
 
 # NPV under T = 0 
 npv_0 <- sum(disc_0$disc_utility)
+npv_0
 
 # percent loss in PV from climate change (T = 4.4)
 L <- ((npv_0 - npv_4.4)/npv_0)*100
 L
 ```
 
+The present value utility with climate change (T = 4.4) is **198.66**. The present value utility without climate change is **255.27**. The percent loss in present value utility from claimate change (L) is **22.18%**. 
+
 ### b) Sensitivity Analyses
 
+#### T = 4.84
+
 ```{r}
-# T = 4.84
 sens_T <- years %>% 
   mutate(temp = temp_fun(t = year, T = 4.84),
          econ = econ_fun(temp = temp),
@@ -211,8 +216,9 @@ L_sens_T - L
 
 Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) by **3.62%**.
 
+#### g = 0.011
+
 ```{r}
-# g = 0.011
 sens_g <- years %>% 
   mutate(temp = temp_fun(t = year, T = 4.4),
          econ = econ_fun(temp = temp),
@@ -231,8 +237,9 @@ L_sens_g - L
 ```
 Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) by **0.03%**.
 
+#### n = 0.55
+
 ```{r}
-# n = 0.55
 sens_n <- years %>% 
   mutate(temp = temp_fun(t = year, T = 4.4),
          econ = econ_fun(temp = temp),
@@ -252,8 +259,9 @@ L_sens_n - L
 
 Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) by **4.51%**.
 
+#### B = 0.055
+
 ```{r}
-# B = 0.055
 sens_b <- years %>% 
   mutate(temp = temp_fun(t = year, T = 4.4),
          econ = econ_fun(temp = temp, B = 0.055),
@@ -276,6 +284,12 @@ Increasing B by 10% results in an **increase** in the percent loss in present va
 ### c)
 
 ```{r}
+
+# Assuming that society will "endure" anything where utility > 0
+
+prevent_cc <- disc_4.4 %>% 
+  
+
 
 
 ```
