@@ -163,10 +163,32 @@ ggplot(utility_time, aes(x = year,
 # discount rate function
 disc_fun <- function(y = 0.005, n = 0.5, g = 0.01){
   disc = y + n*g
-  }
+}
 
+# T = 4.4
+disc_4.4 <- years %>% 
+  mutate(temp = temp_fun(t = year, T = 4.4),
+         econ = econ_fun(temp = temp),
+         consum = consum_fun(t = year, econ = econ),
+         utility = utility_fun(C = consum),
+         disc_utility = utility/((1 + disc_fun())^year))
 
+# NPV under T = 4.4 
+npv_4.4 <- sum(disc_4.4$disc_utility)
 
+# T = 0 
+disc_0 <- years %>% 
+  mutate(temp = temp_fun(t = year, T = 0),
+         econ = econ_fun(temp = temp),
+         consum = consum_fun(t = year, econ = econ),
+         utility = utility_fun(C = consum),
+         disc_utility = utility/((1 + disc_fun())^year))
+
+# NPV under T = 0 
+npv_0 <- sum(disc_0$disc_utility)
+
+# percent loss in PV from climate change (T = 4.4)
+L <- ((npv_0 - npv_4.4)/npv_0)*100
 ```
 
 ### b) 
@@ -177,46 +199,8 @@ disc_fun <- function(y = 0.005, n = 0.5, g = 0.01){
 
 ### c)
 
-```{r, include = FALSE}
-library(patchwork)
+```{r}
 
-c_4.4 <- years %>% 
-  mutate(temp = temp_fun(t = year, T = 4.4),
-         econ = econ_fun(temp = temp),
-         consum = consum_fun(t = year, econ = econ),
-         utility = utility_fun(C = consum))
 
-c_0 <- years %>% 
-  mutate(temp = temp_fun(t = year, T = 0),
-         econ = econ_fun(temp = temp),
-         consum = consum_fun(t = year, econ = econ),
-         utility = utility_fun(C = consum))
-
-c_temp_g <- ggplot() + 
-  geom_line(data = c_4.4, aes(x = year, y = temp),
-            color = "red") + 
-  geom_line(data = c_0, aes(x = year, y = temp),
-            color = "blue")
-
-c_econ_g <- ggplot() + 
-  geom_line(data = c_4.4, aes(x = year, y = econ),
-            color = "red") +
-  geom_line(data = c_0, aes(x = year, y = econ),
-            color = "blue")
-
-c_consum_g <- ggplot() + 
-  geom_line(data = c_4.4, aes(x = year, y = consum),
-            color = "red") + 
-  geom_line(data = c_0, aes(x = year, y = consum),
-            color = "blue")
-
-c_utility_g <- ggplot() + 
-  geom_line(data = c_4.4, aes(x = year, y = utility),
-            color = "red") + 
-  geom_line(data = c_0, aes(x = year, y = utility),
-            color = "blue")
-
-(c_temp_g + c_econ_g) / (c_consum_g + c_utility_g)
-  
 ```
 
