@@ -1,5 +1,6 @@
 ---
-title: "ESM 204 HW4: A Climate Change Model"
+title: "ESM 204 HW4"
+subtitle: "A Climate Change Model"
 author: "Cameryn Brock and Allison Hacker"
 date: "5/22/2020"
 output: html_document
@@ -74,11 +75,6 @@ econ_fun <- function(temp, B = 0.05){
 
 econ_time <- temp_time %>% 
   mutate(econ = econ_fun(temp = temp))
-
-ggplot(econ_time, aes(x = year,
-                      y = econ,
-                      color = climate_change)) + 
-  geom_line()
 
 # total consumption function
 consum_fun <- function(econ, g = 0.01, t){
@@ -157,7 +153,7 @@ ggplot(utility_time, aes(x = year,
 
 ## 2. Analysis
 
-### a) 
+### a) Discounted Utility
 
 ```{r}
 # discount rate function
@@ -189,17 +185,105 @@ npv_0 <- sum(disc_0$disc_utility)
 
 # percent loss in PV from climate change (T = 4.4)
 L <- ((npv_0 - npv_4.4)/npv_0)*100
+L
 ```
 
-### b) 
+### b) Sensitivity Analyses
 
 ```{r}
+# T = 4.84
+sens_T <- years %>% 
+  mutate(temp = temp_fun(t = year, T = 4.84),
+         econ = econ_fun(temp = temp),
+         consum = consum_fun(t = year, econ = econ),
+         utility = utility_fun(C = consum),
+         disc_utility = utility/((1 + disc_fun())^year))
 
+npv_sens_T <- sum(sens_T$disc_utility)
+
+# L with T = 4.84
+L_sens_T <- ((npv_0 - npv_sens_T)/npv_0)*100
+L_sens_T
+
+# change in L
+L_sens_T - L
 ```
+
+Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) by **3.62%**.
+
+```{r}
+# g = 0.011
+sens_g <- years %>% 
+  mutate(temp = temp_fun(t = year, T = 4.4),
+         econ = econ_fun(temp = temp),
+         consum = consum_fun(t = year, econ = econ, g = 0.011),
+         utility = utility_fun(C = consum),
+         disc_utility = utility/((1 + disc_fun(g = 0.011))^year))
+
+npv_sens_g <- sum(sens_g$disc_utility)
+
+# L with g = 0.011
+L_sens_g <- ((npv_0 - npv_sens_g)/npv_0)*100
+L_sens_g
+
+# change in L 
+L_sens_g - L
+```
+Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) by **0.03%**.
+
+```{r}
+# n = 0.55
+sens_n <- years %>% 
+  mutate(temp = temp_fun(t = year, T = 4.4),
+         econ = econ_fun(temp = temp),
+         consum = consum_fun(t = year, econ = econ),
+         utility = utility_fun(C = consum, n = 0.55),
+         disc_utility = utility/((1 + disc_fun(n = 0.55))^year))
+
+npv_sens_n <- sum(sens_n$disc_utility)
+
+# L with n = 0.55
+L_sens_n <- ((npv_0 - npv_sens_n)/npv_0)*100
+L_sens_n
+
+# change in L 
+L_sens_n - L
+```
+
+Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) by **4.51%**.
+
+```{r}
+# B = 0.055
+sens_b <- years %>% 
+  mutate(temp = temp_fun(t = year, T = 4.4),
+         econ = econ_fun(temp = temp, B = 0.055),
+         consum = consum_fun(t = year, econ = econ),
+         utility = utility_fun(C = consum),
+         disc_utility = utility/((1 + disc_fun())^year))
+
+npv_sens_b <- sum(sens_b$disc_utility)
+
+# L with B = 0.055
+L_sens_b <- ((npv_0 - npv_sens_b)/npv_0)*100
+L_sens_b
+
+# change in L 
+L_sens_b - L
+```
+
+Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) by **1.76%**.
 
 ### c)
 
 ```{r}
+
+
+```
+
+### d)
+
+```{r}
+
 
 
 ```
