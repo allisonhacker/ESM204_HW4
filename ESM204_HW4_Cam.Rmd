@@ -1,17 +1,17 @@
 ---
 title: "ESM 204 HW4: A Climate Change Model"
-author: "Cameryn Brock"
+author: "Cameryn Brock and Allison Hacker"
 date: "5/22/2020"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE,
+knitr::opts_chunk$set(echo = TRUE,
                       message = FALSE,
                       warning = FALSE)
 ```
 
-```{r}
+```{r, echo = FALSE}
 library(tidyverse)
 ```
 
@@ -25,7 +25,8 @@ years <- data.frame(
 
 # temperature function
 temp_fun = function(t, T){
-  temp = pmin(t*T/100,T)}
+  temp = pmin(t*T/100,T)
+  }
 
 temp_time <- years %>% 
   mutate(none = temp_fun(t = year, T = 0),
@@ -34,7 +35,10 @@ temp_time <- years %>%
   pivot_longer(2:4,
                values_to = "temp",
                names_to = "climate_change")
+```
 
+
+```{r, echo = FALSE}
 ggplot(temp_time, aes(x = year,
                       y = temp,
                       color = climate_change)) +
@@ -65,18 +69,28 @@ ggplot(temp_time, aes(x = year,
 ```{r}
 # economic activity retained function
 econ_fun <- function(temp, B = 0.05){
-  econ = exp(-B*temp^2)}
+  econ = exp(-B*temp^2)
+  }
 
 econ_time <- temp_time %>% 
   mutate(econ = econ_fun(temp = temp))
 
+ggplot(econ_time, aes(x = year,
+                      y = econ,
+                      color = climate_change)) + 
+  geom_line()
+
 # total consumption function
 consum_fun <- function(econ, g = 0.01, t){
-  consum = econ*exp(g*t)}  
+  consum = econ*exp(g*t)
+  }  
 
 consum_time <- econ_time %>% 
   mutate(consum = consum_fun(t = year, econ = econ))
+```
 
+
+```{r, echo = FALSE}
 ggplot(consum_time, aes(x = year,
                       y = consum,
                       color = climate_change)) +
@@ -107,11 +121,14 @@ ggplot(consum_time, aes(x = year,
 ```{r}
 # society utility function
 utility_fun <- function(C, n = 0.5){
-  utility = ((C^(1-n))/(1-n))}
+  utility = ((C^(1-n))/(1-n))
+  }
 
 utility_time <- consum_time %>% 
   mutate(utility = utility_fun(C = consum))
+```
 
+```{r, echo = FALSE}
 ggplot(utility_time, aes(x = year,
                       y = utility,
                       color = climate_change)) +
@@ -138,16 +155,68 @@ ggplot(utility_time, aes(x = year,
        color = "Climate Change \nScenario")
 ```
 
-## Analysis
+## 2. Analysis
 
 ### a) 
 
 ```{r}
 # discount rate function
 disc_fun <- function(y = 0.005, n = 0.5, g = 0.01){
-  disc = y + n*g}
+  disc = y + n*g
+  }
 
 
 
+```
+
+### b) 
+
+```{r}
+
+```
+
+### c)
+
+```{r, include = FALSE}
+library(patchwork)
+
+c_4.4 <- years %>% 
+  mutate(temp = temp_fun(t = year, T = 4.4),
+         econ = econ_fun(temp = temp),
+         consum = consum_fun(t = year, econ = econ),
+         utility = utility_fun(C = consum))
+
+c_0 <- years %>% 
+  mutate(temp = temp_fun(t = year, T = 0),
+         econ = econ_fun(temp = temp),
+         consum = consum_fun(t = year, econ = econ),
+         utility = utility_fun(C = consum))
+
+c_temp_g <- ggplot() + 
+  geom_line(data = c_4.4, aes(x = year, y = temp),
+            color = "red") + 
+  geom_line(data = c_0, aes(x = year, y = temp),
+            color = "blue")
+
+c_econ_g <- ggplot() + 
+  geom_line(data = c_4.4, aes(x = year, y = econ),
+            color = "red") +
+  geom_line(data = c_0, aes(x = year, y = econ),
+            color = "blue")
+
+c_consum_g <- ggplot() + 
+  geom_line(data = c_4.4, aes(x = year, y = consum),
+            color = "red") + 
+  geom_line(data = c_0, aes(x = year, y = consum),
+            color = "blue")
+
+c_utility_g <- ggplot() + 
+  geom_line(data = c_4.4, aes(x = year, y = utility),
+            color = "red") + 
+  geom_line(data = c_0, aes(x = year, y = utility),
+            color = "blue")
+
+(c_temp_g + c_econ_g) / (c_consum_g + c_utility_g)
+  
 ```
 
