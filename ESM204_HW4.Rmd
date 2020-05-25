@@ -167,11 +167,17 @@ discount <- function(U, r){
 
 ##### Part A
 ```{r}
+# Function for percent change
+p_change <- function(L0, L_new){
+  pc <- (L_new-L0)/L0
+  return(pc*100)
+}
+
 # Function for loss in present value of utility
 
 loss_fun <- function(T, B = 0.05, d=0.005, n = 0.5, g=0.01){
 # Climate Change
-  for(i in 1:sims){
+for(i in 1:sims){
   temps[i] <- temp_fun(T, i-1)}
 
 for(i in 1:sims){
@@ -184,6 +190,7 @@ for(i in 1:sims){
   U[i] <- u_fun(C[i])}
 
 r <- r_fun(d = d, n = n, g = g)
+
 cc_utility <- discount(U, r)
 
 # No climate change
@@ -203,7 +210,7 @@ for(i in 1:sims){
 
 utility <- discount(U, r)
 
-L <- p_change(L0 = utility, L_new = cc_utility)
+L <- abs(p_change(L0 = utility, L_new = cc_utility))
 return(L)
 }
 
@@ -213,11 +220,6 @@ L_test <- loss_fun(T = 4.4)
 
 ##### Part B
 ```{r}
-
-p_change <- function(L0, L_new){
-  pc <- (L_new-L0)/L0
-  return(pc*100)
-}
 
 T <- 4.4
 T10 <- T*1.1
@@ -232,6 +234,11 @@ L_T <- loss_fun(T = T10)
 L_B <- loss_fun(T = 4.4, B = B10)
 L_n <- loss_fun(T = 4.4, n = n10)
 L_g <- loss_fun(T = 4.4, g = g10)
+
+pcT <- p_change(L0 = L_test, L_new = L_T)
+pcB <- p_change(L0 = L_test, L_new = L_B)
+pcn <- p_change(L0 = L_test, L_new = L_n)
+pcg <- p_change(L0 = L_test, L_new = L_g)
 
 ```
 

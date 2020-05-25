@@ -190,7 +190,7 @@ L <- ((npv_0 - npv_4.4)/npv_0)*100
 L
 ```
 
-The present value utility with climate change (T = 4.4) is **198.66**. The present value utility without climate change is **255.27**. The percent loss in present value utility from claimate change (L) is **22.18%**. 
+The present value utility with climate change (T = 4.4) is **198.66**. The present value utility without climate change is **255.27**. The percent loss in present value utility from climate change (L) is **22.18%**. 
 
 ### b) Sensitivity Analyses
 
