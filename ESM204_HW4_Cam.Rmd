@@ -224,8 +224,8 @@ L_sens_T <- ((npv_0 - npv_sens_T)/npv_0)*100
 # L_sens_T = 25.7968
 
 # change in L
-# L_sens_T - L = 3.6197 (difference)
-# ((L_sens_T - L) / L) * 100 = 16.3218 (percent change)
+# L_sens_T - L # = 3.6197 (difference)
+# ((L_sens_T - L) / L) * 100 # = 16.3218 (percent change)
 
 ```
 
@@ -247,8 +247,8 @@ L_sens_g <- ((npv_0 - npv_sens_g)/npv_0)*100
 # L_sens_g = 22.1482
 
 # change in L
-# L_sens_g - L = -0.0289 (difference)
-# ((L_sens_g - L) / L) * 100 = -0.1301 (percent change)
+L_sens_g - L # = -0.0289 (difference)
+# ((L_sens_g - L) / L) * 100 # = -0.1301 (percent change)
 ```
 Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) by 0.03, or **0.13%**.
 
@@ -268,8 +268,8 @@ L_sens_n <- ((npv_0 - npv_sens_n)/npv_0)*100
 # L_sens_n = 17.6627
 
 # change in L 
-# L_sens_n - L = -4.5144 (difference)
-# ((L_sens_n - L) / L) * 100 = -20.3563 (percent change)
+# L_sens_n - L # = -4.5144 (difference)
+# ((L_sens_n - L) / L) * 100 # = -20.3563 (percent change)
 ```
 
 Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) by 4.51, or **20.36%**.
@@ -290,8 +290,8 @@ L_sens_b <- ((npv_0 - npv_sens_b)/npv_0)*100
 # L_sens_b = 23.9386
 
 # change in L
-# L_sens_b - L = 1.7615 (difference)
-# ((L_sens_b - L) / L) * 100 = 7.9430 (percent change)
+# L_sens_b - L # = 1.7615 (difference)
+# ((L_sens_b - L) / L) * 100 # = 7.9430 (percent change)
 ```
 
 Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) by 1.76, or **7.94%**.
