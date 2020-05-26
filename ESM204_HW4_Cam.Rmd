@@ -226,14 +226,16 @@ L_sens_T <- ((npv_0 - npv_sens_T)/npv_0)*100
 # change in L
 #<<<<<<< HEAD
 L_sens_T - L
-
-# percent change in L
-(L_sens_T - L)/L
 ```
+<<<<<<< HEAD
 Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) of **3.62%**. This is a **16.3%** increase in the percent loss.
 =======
 # L_sens_T - L = 3.6197 (difference)
 # ((L_sens_T - L) / L) * 100 = 16.3218 (percent change)
+=======
+
+Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) by **3.62%**.
+>>>>>>> parent of 5e6995a... updates to sensitivity analysis
 
 ```
 
@@ -258,10 +260,8 @@ L_sens_g <- ((npv_0 - npv_sens_g)/npv_0)*100
 #<<<<<<< HEAD
 # change in L 
 L_sens_g - L
-
-# percent change in L
-(L_sens_g - L)/L
 ```
+<<<<<<< HEAD
 Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) of **0.03%**. This is a **0.1%** decrease in the percent loss.
 =======
 # change in L
@@ -270,6 +270,9 @@ Increasing g by 10% results in a **decrease** in the percent loss in present val
 ```
 Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) by 0.03, or **0.13%**.
 >>>>>>> 41b4c664f3e95711713b4f04dcffa19c0c8c7da5
+=======
+Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) by **0.03%**.
+>>>>>>> parent of 5e6995a... updates to sensitivity analysis
 
 ### n = 0.55
 
@@ -289,16 +292,17 @@ L_sens_n <- ((npv_0 - npv_sens_n)/npv_0)*100
 # change in L 
 #<<<<<<< HEAD
 L_sens_n - L
-
-# percent change in L
-(L_sens_n - L)/L
 ```
 
+<<<<<<< HEAD
 Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) of **4.51%**. This is a **20.4%** decrease in percent loss.
 =======
 # L_sens_n - L = -4.5144 (difference)
 # ((L_sens_n - L) / L) * 100 = -20.3563 (percent change)
 ```
+=======
+Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) by **4.51%**.
+>>>>>>> parent of 5e6995a... updates to sensitivity analysis
 
 Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) by 4.51, or **20.36%**.
 >>>>>>> 41b4c664f3e95711713b4f04dcffa19c0c8c7da5
@@ -321,11 +325,9 @@ L_sens_b <- ((npv_0 - npv_sens_b)/npv_0)*100
 #<<<<<<< HEAD
 # change in L 
 L_sens_b - L
-
-# percent change in L
-(L_sens_b - L)/L
 ```
 
+<<<<<<< HEAD
 Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) of **1.76%**. This is a **7.94%** increase in percent loss.
 =======
 # change in L
@@ -335,6 +337,9 @@ Increasing B by 10% results in an **increase** in the percent loss in present va
 
 Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) by 1.76, or **7.94%**.
 >>>>>>> 41b4c664f3e95711713b4f04dcffa19c0c8c7da5
+=======
+Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) by **1.76%**.
+>>>>>>> parent of 5e6995a... updates to sensitivity analysis
 
 \pagebreak
 
