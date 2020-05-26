@@ -190,7 +190,7 @@ L <- ((npv_0 - npv_4.4)/npv_0)*100
 L
 ```
 
-The present value utility with climate change (T = 4.4) is **198.66**. The present value utility without climate change is **255.27**. The percent loss in present value utility from climate change (L) is **22.18%**. 
+The present value utility with climate change (T = 4.4) is **198.66**. The present value utility without climate change is **255.27**. The percent loss in present value utility from claimate change (L) is **22.18%**. 
 
 ### b) Sensitivity Analyses
 
@@ -284,15 +284,25 @@ Increasing B by 10% results in an **increase** in the percent loss in present va
 ### c)
 
 ```{r}
+# No discounting
 
-# Assuming that society will "endure" anything where utility > 0
+U_4.4 <- sum(disc_4.4$utility)
+U_0 <- sum(disc_0$utility)
 
-prevent_cc <- disc_4.4 %>% 
-  
-
-
-
+theta = (U_4.4/(U_0))^2
+theta
 ```
+
+```{r}
+# With discounting
+
+U_4.4_disc <- sum(disc_4.4$disc_utility)
+U_0_disc <- sum(disc_0$disc_utility)
+
+theta_disc = (U_4.4_disc/(U_0_disc))^2
+theta_disc
+```
+
 
 ### d)
 
