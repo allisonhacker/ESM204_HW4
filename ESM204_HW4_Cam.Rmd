@@ -219,13 +219,12 @@ sens_T <- years %>%
          disc_utility = utility/((1 + disc_fun())^year))
 
 npv_sens_T <- sum(sens_T$disc_utility)
-
 L_sens_T <- ((npv_0 - npv_sens_T)/npv_0)*100
-# L_sens_T = 25.7968
+L_sens_T
 
 # change in L
-# L_sens_T - L # = 3.6197 (difference)
-# ((L_sens_T - L) / L) * 100 # = 16.3218 (percent change)
+L_sens_T - L # (difference)
+((L_sens_T - L) / L) * 100 # (percent change)
 
 ```
 
@@ -242,13 +241,12 @@ sens_g <- years %>%
          disc_utility = utility/((1 + disc_fun(g = 0.011))^year))
 
 npv_sens_g <- sum(sens_g$disc_utility)
-
 L_sens_g <- ((npv_0 - npv_sens_g)/npv_0)*100
-# L_sens_g = 22.1482
+L_sens_g
 
 # change in L
-L_sens_g - L # = -0.0289 (difference)
-# ((L_sens_g - L) / L) * 100 # = -0.1301 (percent change)
+L_sens_g - L # (difference)
+((L_sens_g - L) / L) * 100 # (percent change)
 ```
 Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) by 0.03, or **0.13%**.
 
@@ -263,13 +261,12 @@ sens_n <- years %>%
          disc_utility = utility/((1 + disc_fun(n = 0.55))^year))
 
 npv_sens_n <- sum(sens_n$disc_utility)
-
 L_sens_n <- ((npv_0 - npv_sens_n)/npv_0)*100
-# L_sens_n = 17.6627
+L_sens_n 
 
 # change in L 
-# L_sens_n - L # = -4.5144 (difference)
-# ((L_sens_n - L) / L) * 100 # = -20.3563 (percent change)
+L_sens_n - L # (difference)
+((L_sens_n - L) / L) * 100 # (percent change)
 ```
 
 Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) by 4.51, or **20.36%**.
@@ -285,13 +282,12 @@ sens_b <- years %>%
          disc_utility = utility/((1 + disc_fun())^year))
 
 npv_sens_b <- sum(sens_b$disc_utility)
-
 L_sens_b <- ((npv_0 - npv_sens_b)/npv_0)*100
-# L_sens_b = 23.9386
+L_sens_b
 
 # change in L
-# L_sens_b - L # = 1.7615 (difference)
-# ((L_sens_b - L) / L) * 100 # = 7.9430 (percent change)
+L_sens_b - L # (difference)
+((L_sens_b - L) / L) * 100 # (percent change)
 ```
 
 Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) by 1.76, or **7.94%**.
@@ -300,16 +296,16 @@ Increasing B by 10% results in an **increase** in the percent loss in present va
 
 ## c) Fraction of Consumption
 
-$$U(C_{4.4})=\frac{(\theta*C_0)^{1-n}}{1-n}$$
+$$U(C_{4.4})=\frac{((1 -\theta)*C_0)^{1-n}}{1-n}$$
 
 
-$$U(C_{4.4})=\theta^{1-n}*\frac{C_0^{1-n}}{1-n}$$
-$$U(C_{4.4})=\theta^{1-n}*U(C_0)$$
-$$\theta^{1-n} = \frac{U(C_{4.4})}{U(C_0)}$$
+$$U(C_{4.4})=(1 - \theta)^{1-n}*\frac{C_0^{1-n}}{1-n}$$
+$$U(C_{4.4})=(1 - \theta)^{1-n}*U(C_0)$$
+$$(1 - \theta)^{1-n} = \frac{U(C_{4.4})}{U(C_0)}$$
 Assuming n = 0.5,
 
-$$\theta = (\frac{U(C_{4.4})}{U(C_0)})^2$$
-
+$$1 -\theta = (\frac{U(C_{4.4})}{U(C_0)})^2$$
+$$\theta = -(\frac{U(C_{4.4})}{U(C_0)})^2 + 1$$
 
 ```{r}
 # Without discounting
@@ -317,7 +313,7 @@ $$\theta = (\frac{U(C_{4.4})}{U(C_0)})^2$$
 U_4.4 <- sum(disc_4.4$utility)
 U_0 <- sum(disc_0$utility)
 
-theta = (U_4.4/U_0)^2
+theta = -(U_4.4/U_0)^2+1
 theta
 ```
 
@@ -327,11 +323,11 @@ theta
 U_4.4_disc <- sum(disc_4.4$disc_utility)
 U_0_disc <- sum(disc_0$disc_utility)
 
-theta_disc = (U_4.4_disc/U_0_disc)^2
+theta_disc = -(U_4.4_disc/U_0_disc)^2+1
 theta_disc
 ```
 
-Without considering discounting, theta* = **0.493**. With discounting, theta* = **0.606**.
+Without considering discounting, theta* = **0.507**. With discounting, theta* = **0.394**.
 
 \pagebreak
 
@@ -375,12 +371,12 @@ U_6_disc <- sum(d_6$disc_utility) # With discounting
 ```{r}
 # expected theta
 U_exp <- U_2*0.2 + U_4*0.5 + U_6*0.3
-theta_exp <- (U_exp/U_0)^2
+theta_exp <- -(U_exp/U_0)^2+1
 theta_exp # without discounting
 
 U_exp_disc <- U_2_disc*0.2 + U_4_disc*0.5 + U_6_disc*0.3
-theta_exp_disc <- (U_exp_disc/U_0)^2
+theta_exp_disc <- -(U_exp_disc/U_0)^2+1
 theta_exp_disc # with discounting
 ```
 
-Without considering discounting, the expected theta* = **0.515**. With discounting, theta* = **0.085**.
+Without considering discounting, the expected theta* = **0.485**. With discounting, theta* = **0.915**.
