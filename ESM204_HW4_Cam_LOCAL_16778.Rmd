@@ -213,11 +213,8 @@ L_sens_T
 # change in L
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
 L_sens_T - L
 =======
-=======
->>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 =======
 >>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 #<<<<<<< HEAD
@@ -230,12 +227,6 @@ Increasing T by 10% results in an **increase** in the percent loss in present va
 # ((L_sens_T - L) / L) * 100 = 16.3218 (percent change)
 =======
 <<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
-Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) by **3.62%**.
->>>>>>> parent of 5e6995a... updates to sensitivity analysis
->>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 =======
 
 Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) by **3.62%**.
@@ -256,9 +247,6 @@ Increasing T by 10% results in an **increase** in the percent loss in present va
 Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) by 3.62, or **16.32%**.
 >>>>>>> 41b4c664f3e95711713b4f04dcffa19c0c8c7da5
 <<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
-=======
 >>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 =======
 >>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
@@ -284,14 +272,11 @@ L_sens_g
 L_sens_g - L
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 # percent change in L
 (L_sens_g - L)/L
 ```
 Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) of **0.03%**. This is a **0.1%** decrease in the percent loss.
 =======
-=======
->>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 =======
 >>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 #<<<<<<< HEAD
@@ -311,9 +296,6 @@ Increasing g by 10% results in a **decrease** in the percent loss in present val
 Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) by **0.03%**.
 >>>>>>> parent of 5e6995a... updates to sensitivity analysis
 <<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
-=======
 >>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 =======
 >>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
@@ -337,14 +319,11 @@ L_sens_n
 # change in L 
 <<<<<<< HEAD
 <<<<<<< HEAD
-<<<<<<< HEAD
 L_sens_n - L
 
 # percent change in L
 (L_sens_n - L)/L
 =======
-=======
->>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 =======
 >>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 #<<<<<<< HEAD
@@ -368,9 +347,6 @@ Increasing n by 10% results in a **decrease** in the percent loss in present val
 Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) by 4.51, or **20.36%**.
 >>>>>>> 41b4c664f3e95711713b4f04dcffa19c0c8c7da5
 <<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
-=======
 >>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 =======
 >>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
@@ -395,7 +371,6 @@ L_sens_b
 # change in L 
 L_sens_b - L
 
-<<<<<<< HEAD
 # percent change in L
 (L_sens_b - L)/L
 ```
@@ -407,16 +382,11 @@ L_sens_b - L
 
 <<<<<<< HEAD
 =======
-=======
->>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 #<<<<<<< HEAD
 # change in L 
 L_sens_b - L
 ```
 
-<<<<<<< HEAD
->>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
-=======
 >>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 <<<<<<< HEAD
 Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) of **1.76%**. This is a **7.94%** increase in percent loss.
@@ -432,9 +402,6 @@ Increasing B by 10% results in an **increase** in the percent loss in present va
 Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) by **1.76%**.
 >>>>>>> parent of 5e6995a... updates to sensitivity analysis
 <<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
-=======
 >>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 =======
 >>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
