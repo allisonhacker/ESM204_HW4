@@ -212,9 +212,12 @@ L_sens_T
 
 # change in L
 L_sens_T - L
+
+# percent change in L
+(L_sens_T - L)/L
 ```
 
-Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) by **3.62%**.
+Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) of **3.62%**. This is a **16.3%** increase in the percent loss.
 
 #### g = 0.011
 
@@ -234,8 +237,11 @@ L_sens_g
 
 # change in L 
 L_sens_g - L
+
+# percent change in L
+(L_sens_g - L)/L
 ```
-Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) by **0.03%**.
+Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) of **0.03%**. This is a **0.1%** decrease in the percent loss.
 
 #### n = 0.55
 
@@ -255,9 +261,12 @@ L_sens_n
 
 # change in L 
 L_sens_n - L
+
+# percent change in L
+(L_sens_n - L)/L
 ```
 
-Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) by **4.51%**.
+Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) of **4.51%**. This is a **20.4%** decrease in percent loss.
 
 #### B = 0.055
 
@@ -277,9 +286,12 @@ L_sens_b
 
 # change in L 
 L_sens_b - L
+
+# percent change in L
+(L_sens_b - L)/L
 ```
 
-Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) by **1.76%**.
+Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) of **1.76%**. This is a **7.94%** increase in percent loss.
 
 ### c)
 
