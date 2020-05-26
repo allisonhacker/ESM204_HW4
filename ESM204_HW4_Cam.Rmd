@@ -1,24 +1,29 @@
 ---
-title: "ESM 204 HW4"
-subtitle: "A Climate Change Model"
+title: "ESM 204 HW4: A Climate Change Model"
 author: "Cameryn Brock and Allison Hacker"
 date: "5/22/2020"
-output: html_document
+output: 
+  pdf_document:
+    latex_engine: xelatex
+mainfont: Helvetica
+sansfont: Helvetica
+monofont: Helvetica
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
                       message = FALSE,
-                      warning = FALSE)
+                      warning = FALSE,
+                      fig.height = 3.75)
 ```
 
 ```{r, echo = FALSE}
 library(tidyverse)
 ```
 
-## 1. Plots
+# 1. Plots
 
-### a) Temperature over time
+## a) Temperature over time
 
 ```{r}
 years <- data.frame(
@@ -65,7 +70,9 @@ ggplot(temp_time, aes(x = year,
        color = "Climate Change \nScenario")
 ```
 
-### b) Consumption over time
+\pagebreak
+
+## b) Consumption over time
 
 ```{r}
 # economic activity retained function
@@ -112,7 +119,9 @@ ggplot(consum_time, aes(x = year,
        color = "Climate Change \nScenario")
 ```
 
-### c) Undiscounted utility over time
+\pagebreak
+
+## c) Undiscounted utility over time
 
 ```{r}
 # society utility function
@@ -151,9 +160,11 @@ ggplot(utility_time, aes(x = year,
        color = "Climate Change \nScenario")
 ```
 
-## 2. Analysis
+\pagebreak
 
-### a) Discounted Utility
+# 2. Analysis
+
+## a) Discounted Utility
 
 ```{r}
 # discount rate function
@@ -192,9 +203,11 @@ L
 
 The present value utility with climate change (T = 4.4) is **198.66**. The present value utility without climate change is **255.27**. The percent loss in present value utility from claimate change (L) is **22.18%**. 
 
-### b) Sensitivity Analyses
+\pagebreak
 
-#### T = 4.84
+## b) Sensitivity Analyses
+
+### T = 4.84
 
 ```{r}
 sens_T <- years %>% 
@@ -211,12 +224,13 @@ L_sens_T <- ((npv_0 - npv_sens_T)/npv_0)*100
 L_sens_T
 
 # change in L
-L_sens_T - L
+L_sens_T - L # difference
+
 ```
 
-Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) by **3.62%**.
+Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) by 3.62, or ****.
 
-#### g = 0.011
+### g = 0.011
 
 ```{r}
 sens_g <- years %>% 
@@ -237,7 +251,7 @@ L_sens_g - L
 ```
 Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) by **0.03%**.
 
-#### n = 0.55
+### n = 0.55
 
 ```{r}
 sens_n <- years %>% 
@@ -259,7 +273,7 @@ L_sens_n - L
 
 Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) by **4.51%**.
 
-#### B = 0.055
+### B = 0.055
 
 ```{r}
 sens_b <- years %>% 
@@ -281,7 +295,9 @@ L_sens_b - L
 
 Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) by **1.76%**.
 
-### c)
+\pagebreak
+
+## c)
 
 $$U(C_{4.4})=\frac{(\theta*C_0)^{1-n}}{1-n}$$
 
@@ -300,7 +316,7 @@ $$\theta = (\frac{U(C_{4.4})}{U(C_0)})^2$$
 U_4.4 <- sum(disc_4.4$utility)
 U_0 <- sum(disc_0$utility)
 
-theta = (U_4.4/(U_0))^2
+theta = (U_4.4/U_0)^2
 theta
 ```
 
@@ -310,16 +326,62 @@ theta
 U_4.4_disc <- sum(disc_4.4$disc_utility)
 U_0_disc <- sum(disc_0$disc_utility)
 
-theta_disc = (U_4.4_disc/(U_0_disc))^2
+theta_disc = (U_4.4_disc/U_0_disc)^2
 theta_disc
 ```
 
+Without considering discounting, theta* = **0.493**. With discounting, theta* = **0.606**.
 
-### d)
+\pagebreak
+
+## d)
 
 ```{r}
+# T = 2 (prob = 0.2)
+d_2 <- years %>% 
+  mutate(temp = temp_fun(t = year, T = 2),
+         econ = econ_fun(temp = temp),
+         consum = consum_fun(t = year, econ = econ),
+         utility = utility_fun(C = consum),
+         disc_utility = utility/((1 + disc_fun())^year))
 
+U_2 <- sum(d_2$utility) # Without discounting
+U_2_disc <- sum(d_2$disc_utility) # With discounting
 
+# T = 4 (prob = 0.5)
+d_4 <- years %>% 
+  mutate(temp = temp_fun(t = year, T = 4),
+         econ = econ_fun(temp = temp),
+         consum = consum_fun(t = year, econ = econ),
+         utility = utility_fun(C = consum),
+         disc_utility = utility/((1 + disc_fun())^year))
 
+U_4 <- sum(d_4$utility) # Without discounting
+U_4_disc <- sum(d_4$disc_utility) # With discounting
+
+# T = 6 (prob = 0.3)
+d_6 <- years %>% 
+  mutate(temp = temp_fun(t = year, T = 6),
+         econ = econ_fun(temp = temp),
+         consum = consum_fun(t = year, econ = econ),
+         utility = utility_fun(C = consum),
+         disc_utility = utility/((1 + disc_fun())^year))
+
+U_6 <- sum(d_6$utility) # Without discounting
+U_6_disc <- sum(d_6$disc_utility) # With discounting
 ```
 
+```{r}
+# expected theta
+# without discounting
+U_exp <- U_2*0.2 + U_4*0.5 + U_6*0.3
+theta_exp <- (U_exp/U_0)^2
+theta_exp
+
+# with discounting
+U_exp_disc <- U_2_disc*0.2 + U_4_disc*0.5 + U_6_disc*0.3
+theta_exp_disc <- (U_exp_disc/U_0)^2
+theta_exp_disc
+```
+
+Without considering discounting, the expected theta* = **0.515**. With discounting, theta* = **0.085**.
