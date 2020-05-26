@@ -1,30 +1,24 @@
 ---
-title: "ESM 204 HW4: A Climate Change Model"
+title: "ESM 204 HW4"
+subtitle: "A Climate Change Model"
 author: "Cameryn Brock and Allison Hacker"
 date: "5/22/2020"
-output: 
-  pdf_document:
-    latex_engine: xelatex
-fontsize: 11pt
-mainfont: Helvetica
-sansfont: Helvetica
-monofont: inconsolata
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
                       message = FALSE,
-                      warning = FALSE,
-                      fig.height = 3.75)
+                      warning = FALSE)
 ```
 
 ```{r, echo = FALSE}
 library(tidyverse)
 ```
 
-# 1. Plots
+## 1. Plots
 
-## a) Temperature over time
+### a) Temperature over time
 
 ```{r}
 years <- data.frame(
@@ -71,9 +65,7 @@ ggplot(temp_time, aes(x = year,
        color = "Climate Change \nScenario")
 ```
 
-\pagebreak
-
-## b) Consumption over time
+### b) Consumption over time
 
 ```{r}
 # economic activity retained function
@@ -120,9 +112,7 @@ ggplot(consum_time, aes(x = year,
        color = "Climate Change \nScenario")
 ```
 
-\pagebreak
-
-## c) Undiscounted utility over time
+### c) Undiscounted utility over time
 
 ```{r}
 # society utility function
@@ -161,11 +151,9 @@ ggplot(utility_time, aes(x = year,
        color = "Climate Change \nScenario")
 ```
 
-\pagebreak
+## 2. Analysis
 
-# 2. Analysis
-
-## a) Discounted Utility
+### a) Discounted Utility
 
 ```{r}
 # discount rate function
@@ -204,11 +192,9 @@ L
 
 The present value utility with climate change (T = 4.4) is **198.66**. The present value utility without climate change is **255.27**. The percent loss in present value utility from claimate change (L) is **22.18%**. 
 
-\pagebreak
+### b) Sensitivity Analyses
 
-## b) Sensitivity Analyses
-
-### T = 4.84
+#### T = 4.84
 
 ```{r}
 sens_T <- years %>% 
@@ -220,18 +206,52 @@ sens_T <- years %>%
 
 npv_sens_T <- sum(sens_T$disc_utility)
 
+# L with T = 4.84
 L_sens_T <- ((npv_0 - npv_sens_T)/npv_0)*100
-# L_sens_T = 25.7968
+L_sens_T
 
 # change in L
+<<<<<<< HEAD
+<<<<<<< HEAD
+L_sens_T - L
+=======
+=======
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
+#<<<<<<< HEAD
+L_sens_T - L
+```
+<<<<<<< HEAD
+Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) of **3.62%**. This is a **16.3%** increase in the percent loss.
+=======
 # L_sens_T - L = 3.6197 (difference)
 # ((L_sens_T - L) / L) * 100 = 16.3218 (percent change)
+=======
+<<<<<<< HEAD
+=======
 
+Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) by **3.62%**.
+>>>>>>> parent of 5e6995a... updates to sensitivity analysis
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
+
+Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) by **3.62%**.
+>>>>>>> parent of 5e6995a... updates to sensitivity analysis
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
+
+# percent change in L
+(L_sens_T - L)/L
 ```
 
+<<<<<<< HEAD
+Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) of **3.62%**. This is a **16.3%** increase in the percent loss.
+=======
 Increasing T by 10% results in an **increase** in the percent loss in present value utility (L) by 3.62, or **16.32%**.
+>>>>>>> 41b4c664f3e95711713b4f04dcffa19c0c8c7da5
+<<<<<<< HEAD
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
+=======
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 
-### g = 0.011
+#### g = 0.011
 
 ```{r}
 sens_g <- years %>% 
@@ -243,16 +263,44 @@ sens_g <- years %>%
 
 npv_sens_g <- sum(sens_g$disc_utility)
 
+# L with g = 0.011
 L_sens_g <- ((npv_0 - npv_sens_g)/npv_0)*100
-# L_sens_g = 22.1482
+L_sens_g
 
+<<<<<<< HEAD
+# change in L 
+L_sens_g - L
+
+<<<<<<< HEAD
+# percent change in L
+(L_sens_g - L)/L
+```
+Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) of **0.03%**. This is a **0.1%** decrease in the percent loss.
+=======
+=======
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
+#<<<<<<< HEAD
+# change in L 
+L_sens_g - L
+```
+<<<<<<< HEAD
+Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) of **0.03%**. This is a **0.1%** decrease in the percent loss.
+=======
 # change in L
 # L_sens_g - L = -0.0289 (difference)
 # ((L_sens_g - L) / L) * 100 = -0.1301 (percent change)
 ```
 Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) by 0.03, or **0.13%**.
+>>>>>>> 41b4c664f3e95711713b4f04dcffa19c0c8c7da5
+=======
+Increasing g by 10% results in a **decrease** in the percent loss in present value utility (L) by **0.03%**.
+>>>>>>> parent of 5e6995a... updates to sensitivity analysis
+<<<<<<< HEAD
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
+=======
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 
-### n = 0.55
+#### n = 0.55
 
 ```{r}
 sens_n <- years %>% 
@@ -264,17 +312,46 @@ sens_n <- years %>%
 
 npv_sens_n <- sum(sens_n$disc_utility)
 
+# L with n = 0.55
 L_sens_n <- ((npv_0 - npv_sens_n)/npv_0)*100
-# L_sens_n = 17.6627
+L_sens_n
 
 # change in L 
-# L_sens_n - L = -4.5144 (difference)
-# ((L_sens_n - L) / L) * 100 = -20.3563 (percent change)
+<<<<<<< HEAD
+<<<<<<< HEAD
+L_sens_n - L
+
+# percent change in L
+(L_sens_n - L)/L
+=======
+=======
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
+#<<<<<<< HEAD
+L_sens_n - L
 ```
 
-Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) by 4.51, or **20.36%**.
+<<<<<<< HEAD
+Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) of **4.51%**. This is a **20.4%** decrease in percent loss.
+=======
+# L_sens_n - L = -4.5144 (difference)
+# ((L_sens_n - L) / L) * 100 = -20.3563 (percent change)
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
+```
+=======
+Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) by **4.51%**.
+>>>>>>> parent of 5e6995a... updates to sensitivity analysis
 
-### B = 0.055
+<<<<<<< HEAD
+Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) of **4.51%**. This is a **20.4%** decrease in percent loss.
+=======
+Increasing n by 10% results in a **decrease** in the percent loss in present value utility (L) by 4.51, or **20.36%**.
+>>>>>>> 41b4c664f3e95711713b4f04dcffa19c0c8c7da5
+<<<<<<< HEAD
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
+=======
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
+
+#### B = 0.055
 
 ```{r}
 sens_b <- years %>% 
@@ -286,19 +363,52 @@ sens_b <- years %>%
 
 npv_sens_b <- sum(sens_b$disc_utility)
 
+# L with B = 0.055
 L_sens_b <- ((npv_0 - npv_sens_b)/npv_0)*100
-# L_sens_b = 23.9386
+L_sens_b
 
+<<<<<<< HEAD
+# change in L 
+L_sens_b - L
+
+# percent change in L
+(L_sens_b - L)/L
+```
+=======
+#<<<<<<< HEAD
+# change in L 
+L_sens_b - L
+```
+
+<<<<<<< HEAD
+=======
+#<<<<<<< HEAD
+# change in L 
+L_sens_b - L
+```
+
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
+<<<<<<< HEAD
+Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) of **1.76%**. This is a **7.94%** increase in percent loss.
+=======
 # change in L
 # L_sens_b - L = 1.7615 (difference)
 # ((L_sens_b - L) / L) * 100 = 7.9430 (percent change)
 ```
 
 Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) by 1.76, or **7.94%**.
+>>>>>>> 41b4c664f3e95711713b4f04dcffa19c0c8c7da5
+=======
+Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) by **1.76%**.
+>>>>>>> parent of 5e6995a... updates to sensitivity analysis
+<<<<<<< HEAD
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
+=======
+>>>>>>> 8576e513b4b5d5219e8385ea00848b82dc7a82a9
 
-\pagebreak
+Increasing B by 10% results in an **increase** in the percent loss in present value utility (L) of **1.76%**. This is a **7.94%** increase in percent loss.
 
-## c) Fraction of Consumption
+### c)
 
 $$U(C_{4.4})=\frac{(\theta*C_0)^{1-n}}{1-n}$$
 
@@ -317,7 +427,7 @@ $$\theta = (\frac{U(C_{4.4})}{U(C_0)})^2$$
 U_4.4 <- sum(disc_4.4$utility)
 U_0 <- sum(disc_0$utility)
 
-theta = (U_4.4/U_0)^2
+theta = (U_4.4/(U_0))^2
 theta
 ```
 
@@ -327,60 +437,16 @@ theta
 U_4.4_disc <- sum(disc_4.4$disc_utility)
 U_0_disc <- sum(disc_0$disc_utility)
 
-theta_disc = (U_4.4_disc/U_0_disc)^2
+theta_disc = (U_4.4_disc/(U_0_disc))^2
 theta_disc
 ```
 
-Without considering discounting, theta* = **0.493**. With discounting, theta* = **0.606**.
 
-\pagebreak
-
-## d) Expected Theta under Uncertainty
+### d)
 
 ```{r}
-# T = 2 (prob = 0.2)
-d_2 <- years %>% 
-  mutate(temp = temp_fun(t = year, T = 2),
-         econ = econ_fun(temp = temp),
-         consum = consum_fun(t = year, econ = econ),
-         utility = utility_fun(C = consum),
-         disc_utility = utility/((1 + disc_fun())^year))
 
-U_2 <- sum(d_2$utility) # Without discounting
-U_2_disc <- sum(d_2$disc_utility) # With discounting
 
-# T = 4 (prob = 0.5)
-d_4 <- years %>% 
-  mutate(temp = temp_fun(t = year, T = 4),
-         econ = econ_fun(temp = temp),
-         consum = consum_fun(t = year, econ = econ),
-         utility = utility_fun(C = consum),
-         disc_utility = utility/((1 + disc_fun())^year))
 
-U_4 <- sum(d_4$utility) # Without discounting
-U_4_disc <- sum(d_4$disc_utility) # With discounting
-
-# T = 6 (prob = 0.3)
-d_6 <- years %>% 
-  mutate(temp = temp_fun(t = year, T = 6),
-         econ = econ_fun(temp = temp),
-         consum = consum_fun(t = year, econ = econ),
-         utility = utility_fun(C = consum),
-         disc_utility = utility/((1 + disc_fun())^year))
-
-U_6 <- sum(d_6$utility) # Without discounting
-U_6_disc <- sum(d_6$disc_utility) # With discounting
 ```
 
-```{r}
-# expected theta
-U_exp <- U_2*0.2 + U_4*0.5 + U_6*0.3
-theta_exp <- (U_exp/U_0)^2
-theta_exp # without discounting
-
-U_exp_disc <- U_2_disc*0.2 + U_4_disc*0.5 + U_6_disc*0.3
-theta_exp_disc <- (U_exp_disc/U_0)^2
-theta_exp_disc # with discounting
-```
-
-Without considering discounting, the expected theta* = **0.515**. With discounting, theta* = **0.085**.

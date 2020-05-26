@@ -309,7 +309,8 @@ u_theta_test<- rep(NA, sims)
 
 for(i in 1:sims){
   u_theta_test[i] <- u_fun(C_theta[i])}
-sum(u_theta_test)
+
+# sum(u_theta_test)
 
 #cc_utility_disc <- discount(U_cc, r)
 #theta_utility_disc <- discount(u_theta_test, r)
