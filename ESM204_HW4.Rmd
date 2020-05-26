@@ -125,7 +125,7 @@ U_0<- rep(NA, sims)
 U_2<- rep(NA, sims)
 U_8<- rep(NA, sims)
 
-u_fun <- function(C,n = 0.5){
+u_fun <- function(C, n = 0.5){
   U = (C^(1-n))/(1-n)
 }
 
@@ -184,10 +184,10 @@ for(i in 1:sims){
   K[i] <- econ_fun(temps[i], B = B)}
 
 for(i in 1:sims){
-  C[i] <- con_fun(K[i], i-1)}
+  C[i] <- con_fun(K[i], i-1, g = g)}
 
 for(i in 1:sims){
-  U[i] <- u_fun(C[i])}
+  U[i] <- u_fun(C[i], n = n)}
 
 r <- r_fun(d = d, n = n, g = g)
 
@@ -203,10 +203,10 @@ for(i in 1:sims){
   K[i] <- econ_fun(temps[i])}
 
 for(i in 1:sims){
-  C[i] <- con_fun(K[i], i-1)}
+  C[i] <- con_fun(K[i], i-1, g = g)}
 
 for(i in 1:sims){
-  U[i] <- u_fun(C[i])}
+  U[i] <- u_fun(C[i], n = n)}
 
 utility <- discount(U, r)
 
@@ -227,9 +227,6 @@ B10 <- B*1.1
 n10 <- n*1.1
 g10 <- g*1.1
 
-r_n <- r_fun(n = n10)
-r_g <- r_fun(g = g10)
-
 L_T <- loss_fun(T = T10)
 L_B <- loss_fun(T = 4.4, B = B10)
 L_n <- loss_fun(T = 4.4, n = n10)
@@ -242,20 +239,134 @@ pcg <- p_change(L0 = L_test, L_new = L_g)
 
 ```
 
+
+##### Part C
+
+Back to the original parameters, suppose we could completely prevent climate
+change from occurring (so T = 0 instead of T = 4.4) but doing so would require
+giving up a fraction theta of consumption every year for the next 200 years. What
+is the maximum value of theta society would be willing to endure every year to
+completely prevent climate change? Call this theta*.
+
 ```{r}
 # what fraction of consumption would society be willing to "pay" every year for 200 years to completely prevent climate change?
-dis <- rep(NA, sims)
-dif <- U_0-U_8
-dif_sum <- sum(dif)
-sum(U_0)
-r <- r_fun()
-dis <- discount(dif, r)
 
-u_fun_con<- function(C, x, n = 0.5){
-  U = ((C*(1-x))^(1-n))/(1-n)
+# sum(utility (T = 0, C*theta)) <= sum(utility (T= 4.4))
+
+temps_cc <- rep(NA, sims)
+K_cc <- rep(NA, sims)
+C_cc <- rep(NA, sims)
+U_cc <- rep(NA, sims)
+
+T = 4.4
+
+for(i in 1:sims){
+  temps_cc[i] <- temp_fun(T, i-1)}
+
+for(i in 1:sims){
+  K_cc[i] <- econ_fun(temps_cc[i], B = B)}
+
+for(i in 1:sims){
+  C_cc[i] <- con_fun(K_cc[i], i-1)}
+
+for(i in 1:sims){
+  U_cc[i] <- u_fun(C_cc[i], n = n)}
+
+r <- r_fun(d = d, n = n, g = g)
+
+cc_utility <- sum(U_cc)
+
+# Find theta
+
+T <- 0
+
+for(i in 1:sims){
+  temps[i] <- temp_fun(T, i-1)}
+
+for(i in 1:sims){
+  K[i] <- econ_fun(temps[i])}
+
+for(i in 1:sims){
+  C[i] <- con_fun(K[i], i-1, g = g)}
+
+u_theta <- rep(NA, sims)
+u_fun_theta <- function(C, n = 0.5){
+  u_theta = C^(1-n)
 }
 
+for(i in 1:sims){
+  u_theta[i] <- u_fun_theta(C_0[i])}
 
+# U_cc = theta^0.5 * sum(u_theta)*2
+# theta^0.5 = U_cc/(2*sum(u_theta))
+# theta = (U_cc/(2*sum(u_theta)))^2
+
+theta = (cc_utility/(2*sum(u_theta)))^2
+
+# find utility with no climate change and theta
+C_theta <- C_0*theta
+u_theta_test<- rep(NA, sims)
+
+for(i in 1:sims){
+  u_theta_test[i] <- u_fun(C_theta[i])}
+sum(u_theta_test)
+
+#cc_utility_disc <- discount(U_cc, r)
+#theta_utility_disc <- discount(u_theta_test, r)
 
 ```
 
+theta* = 0.493
+
+
+##### Part D
+
+Suppose we are uncertain about T, but it has the following probability distribution:
+T = 2 (with probability .2), T = 4 (with probability .5), and T = 6 (with
+probability .3). Calculate theta under uncertainty over T.
+
+```{r}
+
+temps_4 <- rep(NA, sims)
+temps_6 <- rep(NA, sims)
+
+# create temp vectors for CC scenarios
+for(i in 1:sims){
+  temps_4[i] <- temp_fun(4, i-1)}
+
+for(i in 1:sims){
+  temps_6[i] <- temp_fun(6, i-1)}
+
+K_4<- rep(NA, sims)
+K_6<- rep(NA, sims)
+
+for(i in 1:sims){
+   K_4[i] <- econ_fun(temps_4[i])}
+
+for(i in 1:sims){
+   K_6[i] <- econ_fun(temps_6[i])}
+
+C_4<- rep(NA, sims)
+C_6<- rep(NA, sims)
+
+ for(i in 0:sims){
+   C_4[i] <- con_fun(K_4[i], i-1)}
+
+for(i in 0:sims){
+   C_6[i] <- con_fun(K_6[i], i-1)}
+
+U_4<- rep(NA, sims)
+U_6<- rep(NA, sims)
+
+for(i in 0:sims){
+   U_4[i] <- u_fun(C_4[i])}
+
+for(i in 0:sims){
+   U_6[i] <- u_fun(C_6[i])}
+
+expected_U <- sum(U_2)*0.2 + sum(U_4)*0.5 + sum(U_6)*0.3
+theta_expected = (expected_U/(2*sum(u_theta)))^2
+
+```
+
+theta* = 0.515
