@@ -283,8 +283,19 @@ Increasing B by 10% results in an **increase** in the percent loss in present va
 
 ### c)
 
+$$U(C_{4.4})=\frac{(\theta*C_0)^{1-n}}{1-n}$$
+
+
+$$U(C_{4.4})=\theta^{1-n}*\frac{C_0^{1-n}}{1-n}$$
+$$U(C_{4.4})=\theta^{1-n}*U(C_0)$$
+$$\theta^{1-n} = \frac{U(C_{4.4})}{U(C_0)}$$
+Assuming n = 0.5,
+
+$$\theta = (\frac{U(C_{4.4})}{U(C_0)})^2$$
+
+
 ```{r}
-# No discounting
+# Without discounting
 
 U_4.4 <- sum(disc_4.4$utility)
 U_0 <- sum(disc_0$utility)

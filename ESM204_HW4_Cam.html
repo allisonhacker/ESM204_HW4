@@ -459,7 +459,7 @@ npv_0</code></pre>
 L &lt;- ((npv_0 - npv_4.4)/npv_0)*100
 L</code></pre>
 <pre><code>## [1] 22.17709</code></pre>
-<p>The present value utility without climate change is <strong>255.27</strong>. The present value utility with climate change (T = 4.4) is <strong>198.66</strong>. The percent loss in present value utility from claimate change (L) is <strong>22.18%</strong>.</p>
+<p>The present value utility with climate change (T = 4.4) is <strong>198.66</strong>. The present value utility without climate change is <strong>255.27</strong>. The percent loss in present value utility from claimate change (L) is <strong>22.18%</strong>.</p>
 </div>
 <div id="b-sensitivity-analyses" class="section level3">
 <h3>b) Sensitivity Analyses</h3>
@@ -546,6 +546,25 @@ L_sens_b - L</code></pre>
 </div>
 <div id="c" class="section level3">
 <h3>c)</h3>
+<p><span class="math display">\[U(C_{4.4})=\frac{(\theta*C_0)^{1-n}}{1-n}\]</span></p>
+<p><span class="math display">\[U(C_{4.4})=\theta^{1-n}*\frac{C_0^{1-n}}{1-n}\]</span> <span class="math display">\[U(C_{4.4})=\theta^{1-n}*U(C_0)\]</span> <span class="math display">\[\theta^{1-n} = \frac{U(C_{4.4})}{U(C_0)}\]</span> Assuming n = 0.5,</p>
+<p><span class="math display">\[\theta = (\frac{U(C_{4.4})}{U(C_0)})^2\]</span></p>
+<pre class="r"><code># Without discounting
+
+U_4.4 &lt;- sum(disc_4.4$utility)
+U_0 &lt;- sum(disc_0$utility)
+
+theta = (U_4.4/(U_0))^2
+theta</code></pre>
+<pre><code>## [1] 0.4926615</code></pre>
+<pre class="r"><code># With discounting
+
+U_4.4_disc &lt;- sum(disc_4.4$disc_utility)
+U_0_disc &lt;- sum(disc_0$disc_utility)
+
+theta_disc = (U_4.4_disc/(U_0_disc))^2
+theta_disc</code></pre>
+<pre><code>## [1] 0.6056405</code></pre>
 </div>
 <div id="d" class="section level3">
 <h3>d)</h3>
